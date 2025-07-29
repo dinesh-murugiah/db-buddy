@@ -1,0 +1,173 @@
+import { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarTrigger,
+  useSidebar,
+} from '@/components/ui/sidebar';
+import {
+  Home,
+  Database,
+  BarChart3,
+  Workflow,
+  Zap,
+  Leaf,
+  Settings,
+  Activity,
+  FileText,
+  Users,
+  Bell
+} from 'lucide-react';
+
+const navigationItems = [
+  { title: 'Dashboard', url: '/', icon: Home },
+  { title: 'Workflows', url: '/workflows', icon: Workflow },
+  { title: 'Analytics', url: '/analytics', icon: BarChart3 },
+  { title: 'Logs', url: '/logs', icon: FileText },
+  { title: 'Alerts', url: '/alerts', icon: Bell },
+];
+
+const databaseItems = [
+  { title: 'Redis', url: '/databases/redis', icon: Database, color: 'text-red-500' },
+  { title: 'PostgreSQL', url: '/databases/postgres', icon: Database, color: 'text-blue-600' },
+  { title: 'ClickHouse', url: '/databases/clickhouse', icon: BarChart3, color: 'text-yellow-500' },
+  { title: 'Kafka', url: '/databases/kafka', icon: Workflow, color: 'text-gray-700' },
+  { title: 'ScyllaDB', url: '/databases/scylla', icon: Zap, color: 'text-purple-600' },
+  { title: 'MongoDB', url: '/databases/mongodb', icon: Leaf, color: 'text-green-600' },
+];
+
+const systemItems = [
+  { title: 'Monitoring', url: '/monitoring', icon: Activity },
+  { title: 'Users', url: '/users', icon: Users },
+  { title: 'Settings', url: '/settings', icon: Settings },
+];
+
+export function AppSidebar() {
+  const { state } = useSidebar();
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const isCollapsed = state === 'collapsed';
+
+  const isActive = (path: string) => {
+    if (path === '/') {
+      return currentPath === '/';
+    }
+    return currentPath.startsWith(path);
+  };
+
+  const getNavClasses = (path: string) => {
+    const active = isActive(path);
+    return active 
+      ? "bg-primary/10 text-primary font-medium border-r-2 border-primary" 
+      : "hover:bg-muted/50 text-muted-foreground hover:text-foreground";
+  };
+
+  return (
+    <Sidebar
+      collapsible="icon"
+    >
+      <SidebarContent className="bg-card border-r border-border">
+        {/* Brand */}
+        <div className="p-4 border-b border-border">
+          {!isCollapsed ? (
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-lg bg-gradient-primary">
+                <Database className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-foreground">DB Buddy</h2>
+                <p className="text-xs text-muted-foreground">Database Portal</p>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <div className="p-2 rounded-lg bg-gradient-primary">
+                <Database className="h-5 w-5 text-primary-foreground" />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Main Navigation */}
+        <SidebarGroup>
+          <SidebarGroupLabel className={isCollapsed ? "sr-only" : ""}>
+            Navigation
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navigationItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink 
+                      to={item.url} 
+                      end={item.url === '/'}
+                      className={getNavClasses(item.url)}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {!isCollapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Database Navigation */}
+        <SidebarGroup>
+          <SidebarGroupLabel className={isCollapsed ? "sr-only" : ""}>
+            Databases
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {databaseItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink 
+                      to={item.url}
+                      className={getNavClasses(item.url)}
+                    >
+                      <item.icon className={`h-4 w-4 ${item.color}`} />
+                      {!isCollapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* System Navigation */}
+        <SidebarGroup>
+          <SidebarGroupLabel className={isCollapsed ? "sr-only" : ""}>
+            System
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {systemItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink 
+                      to={item.url}
+                      className={getNavClasses(item.url)}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {!isCollapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
+  );
+}
