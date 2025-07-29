@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppSidebar } from "@/components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import ManualWorkflows from "./pages/ManualWorkflows";
+import AgenticSRE from "./pages/AgenticSRE";
 import Analytics from "./pages/Analytics";
 import Alerts from "./pages/Alerts";
 import KnowledgeBase from "./pages/KnowledgeBase";
@@ -27,10 +28,10 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/workflows" element={<ManualWorkflows />} />
+                <Route path="/agentic-sre" element={<AgenticSRE />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/alerts" element={<Alerts />} />
                 <Route path="/knowledge-base" element={<KnowledgeBase />} />
-                <Route path="/databases/*" element={<Dashboard />} />
                 <Route path="/sla" element={<Dashboard />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />

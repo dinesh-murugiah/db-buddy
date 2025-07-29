@@ -29,19 +29,12 @@ import {
 const navigationItems = [
   { title: 'Dashboard', url: '/', icon: Home },
   { title: 'Manual Workflows', url: '/workflows', icon: Workflow },
+  { title: 'Agentic SRE', url: '/agentic-sre', icon: Activity },
   { title: 'Analytics', url: '/analytics', icon: BarChart3 },
   { title: 'Alerts', url: '/alerts', icon: Bell },
   { title: 'Knowledge Base', url: '/knowledge-base', icon: FileText },
 ];
 
-const databaseItems = [
-  { title: 'Redis', url: '/databases/redis', icon: Database, color: 'text-red-500' },
-  { title: 'PostgreSQL', url: '/databases/postgres', icon: Database, color: 'text-blue-600' },
-  { title: 'ClickHouse', url: '/databases/clickhouse', icon: BarChart3, color: 'text-yellow-500' },
-  { title: 'Kafka', url: '/databases/kafka', icon: Workflow, color: 'text-gray-700' },
-  { title: 'ScyllaDB', url: '/databases/scylla', icon: Zap, color: 'text-purple-600' },
-  { title: 'MongoDB', url: '/databases/mongodb', icon: Leaf, color: 'text-green-600' },
-];
 
 const systemItems = [
   { title: 'SLA Dashboard', url: '/sla', icon: Activity },
@@ -118,29 +111,6 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Database Navigation */}
-        <SidebarGroup>
-          <SidebarGroupLabel className={isCollapsed ? "sr-only" : ""}>
-            Databases
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {databaseItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink 
-                      to={item.url}
-                      className={getNavClasses(item.url)}
-                    >
-                      <item.icon className={`h-4 w-4 ${item.color}`} />
-                      {!isCollapsed && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
 
         {/* System Navigation */}
         <SidebarGroup>
