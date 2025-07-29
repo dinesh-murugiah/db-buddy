@@ -465,13 +465,43 @@ export default function ManualWorkflows() {
 
         {/* Database Type Selector */}
         <Tabs value={selectedDatabase} onValueChange={(value) => setSelectedDatabase(value as DatabaseType)}>
-          <TabsList className="grid grid-cols-3 lg:grid-cols-6">
-            <TabsTrigger value="redis" className="text-xs">Redis</TabsTrigger>
-            <TabsTrigger value="postgres" className="text-xs">PostgreSQL</TabsTrigger>
-            <TabsTrigger value="clickhouse" className="text-xs">ClickHouse</TabsTrigger>
-            <TabsTrigger value="kafka" className="text-xs">Kafka</TabsTrigger>
-            <TabsTrigger value="scylla" className="text-xs">ScyllaDB</TabsTrigger>
-            <TabsTrigger value="mongodb" className="text-xs">MongoDB</TabsTrigger>
+          <TabsList className="grid grid-cols-3 lg:grid-cols-6 bg-gradient-to-r from-muted/50 to-muted/30 p-1 rounded-xl border border-border/50 shadow-sm">
+            <TabsTrigger 
+              value="redis" 
+              className="text-xs font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/10 data-[state=active]:to-red-600/10 data-[state=active]:text-red-700 data-[state=active]:border-red-200 data-[state=active]:shadow-sm hover:bg-red-50/50 hover:text-red-600 hover:scale-105 animate-fade-in"
+            >
+              Redis
+            </TabsTrigger>
+            <TabsTrigger 
+              value="postgres" 
+              className="text-xs font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/10 data-[state=active]:to-blue-600/10 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200 data-[state=active]:shadow-sm hover:bg-blue-50/50 hover:text-blue-600 hover:scale-105 animate-fade-in"
+            >
+              PostgreSQL
+            </TabsTrigger>
+            <TabsTrigger 
+              value="clickhouse" 
+              className="text-xs font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500/10 data-[state=active]:to-yellow-600/10 data-[state=active]:text-yellow-700 data-[state=active]:border-yellow-200 data-[state=active]:shadow-sm hover:bg-yellow-50/50 hover:text-yellow-600 hover:scale-105 animate-fade-in"
+            >
+              ClickHouse
+            </TabsTrigger>
+            <TabsTrigger 
+              value="kafka" 
+              className="text-xs font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-gray-500/10 data-[state=active]:to-gray-600/10 data-[state=active]:text-gray-700 data-[state=active]:border-gray-200 data-[state=active]:shadow-sm hover:bg-gray-50/50 hover:text-gray-600 hover:scale-105 animate-fade-in"
+            >
+              Kafka
+            </TabsTrigger>
+            <TabsTrigger 
+              value="scylla" 
+              className="text-xs font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/10 data-[state=active]:to-purple-600/10 data-[state=active]:text-purple-700 data-[state=active]:border-purple-200 data-[state=active]:shadow-sm hover:bg-purple-50/50 hover:text-purple-600 hover:scale-105 animate-fade-in"
+            >
+              ScyllaDB
+            </TabsTrigger>
+            <TabsTrigger 
+              value="mongodb" 
+              className="text-xs font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/10 data-[state=active]:to-green-600/10 data-[state=active]:text-green-700 data-[state=active]:border-green-200 data-[state=active]:shadow-sm hover:bg-green-50/50 hover:text-green-600 hover:scale-105 animate-fade-in"
+            >
+              MongoDB
+            </TabsTrigger>
           </TabsList>
         </Tabs>
       </div>

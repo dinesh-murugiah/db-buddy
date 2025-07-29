@@ -241,14 +241,14 @@ export default function Alerts() {
 
       {/* Database Filter */}
       <Tabs value={selectedDatabase} onValueChange={(value) => setSelectedDatabase(value as DatabaseType | 'all')}>
-        <TabsList className="grid grid-cols-4 lg:grid-cols-7">
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="redis">Redis</TabsTrigger>
-          <TabsTrigger value="postgres">PostgreSQL</TabsTrigger>
-          <TabsTrigger value="clickhouse">ClickHouse</TabsTrigger>
-          <TabsTrigger value="kafka">Kafka</TabsTrigger>
-          <TabsTrigger value="scylla">ScyllaDB</TabsTrigger>
-          <TabsTrigger value="mongodb">MongoDB</TabsTrigger>
+        <TabsList className="grid grid-cols-4 lg:grid-cols-7 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-900/20 dark:to-orange-900/20 p-1 rounded-xl border border-amber-200/50 dark:border-amber-800/50 shadow-lg backdrop-blur-sm">
+          <TabsTrigger value="all" className="font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/15 data-[state=active]:to-primary/20 data-[state=active]:text-primary data-[state=active]:shadow-md hover:bg-primary/5 hover:text-primary hover:scale-105 animate-fade-in">All</TabsTrigger>
+          <TabsTrigger value="redis" className="font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/15 data-[state=active]:to-red-600/15 data-[state=active]:text-red-700 data-[state=active]:shadow-md hover:bg-red-50/50 hover:text-red-600 hover:scale-105 animate-fade-in">Redis</TabsTrigger>
+          <TabsTrigger value="postgres" className="font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/15 data-[state=active]:to-blue-600/15 data-[state=active]:text-blue-700 data-[state=active]:shadow-md hover:bg-blue-50/50 hover:text-blue-600 hover:scale-105 animate-fade-in">PostgreSQL</TabsTrigger>
+          <TabsTrigger value="clickhouse" className="font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500/15 data-[state=active]:to-yellow-600/15 data-[state=active]:text-yellow-700 data-[state=active]:shadow-md hover:bg-yellow-50/50 hover:text-yellow-600 hover:scale-105 animate-fade-in">ClickHouse</TabsTrigger>
+          <TabsTrigger value="kafka" className="font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-gray-500/15 data-[state=active]:to-gray-600/15 data-[state=active]:text-gray-700 data-[state=active]:shadow-md hover:bg-gray-50/50 hover:text-gray-600 hover:scale-105 animate-fade-in">Kafka</TabsTrigger>
+          <TabsTrigger value="scylla" className="font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/15 data-[state=active]:to-purple-600/15 data-[state=active]:text-purple-700 data-[state=active]:shadow-md hover:bg-purple-50/50 hover:text-purple-600 hover:scale-105 animate-fade-in">ScyllaDB</TabsTrigger>
+          <TabsTrigger value="mongodb" className="font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/15 data-[state=active]:to-green-600/15 data-[state=active]:text-green-700 data-[state=active]:shadow-md hover:bg-green-50/50 hover:text-green-600 hover:scale-105 animate-fade-in">MongoDB</TabsTrigger>
         </TabsList>
 
         {/* Alert Summary */}
@@ -304,12 +304,18 @@ export default function Alerts() {
 
         {/* Alert Lists */}
         <Tabs defaultValue="active" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="active">
-              Active Alerts ({activeAlerts.length})
+          <TabsList className="bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-900 dark:to-gray-900 border border-slate-200 dark:border-slate-700 shadow-md rounded-lg p-1">
+            <TabsTrigger 
+              value="active" 
+              className="font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/10 data-[state=active]:to-orange-500/10 data-[state=active]:text-red-700 data-[state=active]:border data-[state=active]:border-red-200 data-[state=active]:shadow-sm hover:bg-red-50/30 hover:text-red-600 hover:scale-105 animate-fade-in"
+            >
+              🚨 Active Alerts ({activeAlerts.length})
             </TabsTrigger>
-            <TabsTrigger value="resolved">
-              Recently Resolved ({resolvedAlerts.length})
+            <TabsTrigger 
+              value="resolved" 
+              className="font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/10 data-[state=active]:to-emerald-500/10 data-[state=active]:text-green-700 data-[state=active]:border data-[state=active]:border-green-200 data-[state=active]:shadow-sm hover:bg-green-50/30 hover:text-green-600 hover:scale-105 animate-fade-in"
+            >
+              ✅ Recently Resolved ({resolvedAlerts.length})
             </TabsTrigger>
           </TabsList>
 
