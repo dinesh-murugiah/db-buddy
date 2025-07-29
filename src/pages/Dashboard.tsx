@@ -7,13 +7,16 @@ import {
   DollarSign,
   TrendingUp, 
   Server,
-  Sparkles
+  Sparkles,
+  Download
 } from 'lucide-react';
 import { DatabaseLandingCard } from '@/components/DatabaseLandingCard';
 import { WorkflowCard } from '@/components/WorkflowCard';
 import { DashboardHeader } from '@/components/DashboardHeader';
 import { mockDatabaseOverviews, mockWorkflows } from '@/data/mockData';
 import { Workflow, DatabaseType } from '@/types/database';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function Dashboard() {
   const [databases] = useState(mockDatabaseOverviews);
@@ -36,6 +39,63 @@ export default function Dashboard() {
     // TODO: Implement workflow execution
   };
 
+  const exportToPDF = async () => {
+    const pdf = new jsPDF('l', 'mm', 'a4'); // landscape orientation
+    const routes = [
+      { path: '/', name: 'Dashboard' },
+      { path: '/workflows', name: 'Manual Workflows' },
+      { path: '/agentic-sre', name: 'Agentic SRE' },
+      { path: '/analytics', name: 'Analytics' },
+      { path: '/alerts', name: 'Alerts' },
+      { path: '/knowledge-base', name: 'Knowledge Base' }
+    ];
+
+    setIsRefreshing(true);
+    
+    try {
+      for (let i = 0; i < routes.length; i++) {
+        const route = routes[i];
+        
+        // Navigate to route
+        if (route.path !== '/') {
+          window.history.pushState({}, '', route.path);
+          await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for page to load
+        }
+
+        // Capture screenshot
+        const element = document.body;
+        const canvas = await html2canvas(element, {
+          height: window.innerHeight,
+          width: window.innerWidth,
+          scale: 0.5 // Reduce scale for better PDF size
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 297; // A4 landscape width in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        if (i > 0) pdf.addPage();
+        
+        // Add page title
+        pdf.setFontSize(16);
+        pdf.text(route.name, 20, 20);
+        
+        // Add image
+        pdf.addImage(imgData, 'PNG', 10, 30, imgWidth - 20, imgHeight - 40);
+      }
+
+      // Navigate back to dashboard
+      window.history.pushState({}, '', '/');
+      
+      // Download PDF
+      pdf.save('db-buddy-pages.pdf');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
   return (
     <div className="flex-1 space-y-8 p-6">
       <DashboardHeader
@@ -44,6 +104,18 @@ export default function Dashboard() {
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
       />
+
+      {/* PDF Export Button */}
+      <div className="flex justify-end">
+        <Button 
+          onClick={exportToPDF}
+          disabled={isRefreshing}
+          className="flex items-center gap-2"
+        >
+          <Download className="h-4 w-4" />
+          Export All Pages to PDF
+        </Button>
+      </div>
 
       {/* Hero Stats */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
