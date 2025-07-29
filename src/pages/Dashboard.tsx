@@ -4,16 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
-  Database, 
-  Activity, 
-  AlertTriangle, 
+  DollarSign,
   TrendingUp, 
   Server,
-  Zap,
-  Shield,
-  Clock
+  Sparkles
 } from 'lucide-react';
-import { DatabaseOverviewCard } from '@/components/DatabaseOverviewCard';
+import { DatabaseLandingCard } from '@/components/DatabaseLandingCard';
 import { WorkflowCard } from '@/components/WorkflowCard';
 import { DashboardHeader } from '@/components/DashboardHeader';
 import { mockDatabaseOverviews, mockWorkflows } from '@/data/mockData';
@@ -25,10 +21,8 @@ export default function Dashboard() {
   const [selectedDatabase, setSelectedDatabase] = useState<DatabaseType>('redis');
 
   // Calculate overall stats
+  const totalWeeklyCost = databases.reduce((sum, db) => sum + db.weeklyCost, 0);
   const totalInstances = databases.reduce((sum, db) => sum + db.activeCount, 0);
-  const totalHealthy = databases.reduce((sum, db) => sum + db.healthyCount, 0);
-  const totalAlerts = databases.reduce((sum, db) => sum + db.alerts.filter(a => !a.resolved).length, 0);
-  const avgResponseTime = databases.reduce((sum, db) => sum + db.metrics.responseTime, 0) / databases.length;
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -43,82 +37,74 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex-1 space-y-6 p-6">
+    <div className="flex-1 space-y-8 p-6">
       <DashboardHeader
-        title="Database Management Portal"
-        subtitle="Monitor and manage your database infrastructure"
+        title="Database Infrastructure Overview"
+        subtitle="Comprehensive view of your database landscape and weekly costs"
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
       />
 
-      {/* Overview Stats */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-gradient-card shadow-card">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Instances</CardTitle>
-            <Server className="h-4 w-4 text-muted-foreground" />
+      {/* Hero Stats */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="lg:col-span-1 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border-primary/20">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-primary">
+              <DollarSign className="h-5 w-5" />
+              Total Weekly Cost
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalInstances}</div>
-            <p className="text-xs text-muted-foreground">
-              Across {databases.length} database types
+            <div className="text-3xl font-bold">${totalWeeklyCost.toLocaleString()}</div>
+            <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
+              <TrendingUp className="h-3 w-3 text-success" />
+              8% reduction from last week
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-card shadow-card">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Health Status</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+        <Card className="bg-gradient-to-br from-success/10 via-success/5 to-transparent border-success/20">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-success">
+              <Server className="h-5 w-5" />
+              Total Instances
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-success">
-              {Math.round((totalHealthy / totalInstances) * 100)}%
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {totalHealthy}/{totalInstances} instances healthy
+            <div className="text-3xl font-bold">{totalInstances.toLocaleString()}</div>
+            <p className="text-sm text-muted-foreground">
+              Across {databases.filter(db => db.activeCount > 0).length} database types
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-card shadow-card">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Alerts</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+        <Card className="bg-gradient-to-br from-purple-500/10 via-purple-500/5 to-transparent border-purple-500/20">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-purple-600">
+              <Sparkles className="h-5 w-5" />
+              AI Automation
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-destructive">{totalAlerts}</div>
-            <p className="text-xs text-muted-foreground">
-              Requires attention
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-card shadow-card">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg Response</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{avgResponseTime.toFixed(1)}ms</div>
-            <p className="text-xs text-muted-foreground">
-              Across all databases
+            <div className="text-3xl font-bold">94%</div>
+            <p className="text-sm text-muted-foreground">
+              Tasks automated this week
             </p>
           </CardContent>
         </Card>
       </div>
 
       {/* Main Content Tabs */}
-      <Tabs defaultValue="overview" className="space-y-4">
+      <Tabs defaultValue="overview" className="space-y-6">
         <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
-          <TabsTrigger value="overview">Database Overview</TabsTrigger>
-          <TabsTrigger value="workflows">Quick Workflows</TabsTrigger>
+          <TabsTrigger value="overview">Database Landscape</TabsTrigger>
+          <TabsTrigger value="workflows">Manual Workflows</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-4">
+        <TabsContent value="overview" className="space-y-6">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {databases.map((database) => (
-              <DatabaseOverviewCard key={database.type} database={database} />
+              <DatabaseLandingCard key={database.type} database={database} />
             ))}
           </div>
         </TabsContent>

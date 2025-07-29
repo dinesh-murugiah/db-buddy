@@ -4,10 +4,10 @@ export const mockDatabaseOverviews: DatabaseOverview[] = [
   {
     type: 'redis',
     name: 'Redis',
-    activeCount: 12,
-    healthyCount: 10,
-    unhealthyCount: 1,
-    warningCount: 1,
+    activeCount: 700,
+    healthyCount: 700,
+    unhealthyCount: 0,
+    warningCount: 0,
     alerts: [
       {
         id: '1',
@@ -16,140 +16,187 @@ export const mockDatabaseOverviews: DatabaseOverview[] = [
         timestamp: new Date('2024-01-15T10:30:00Z'),
         database: 'redis',
         resolved: false
+      },
+      {
+        id: '1-resolved',
+        severity: 'low',
+        message: 'Connection pool optimization completed',
+        timestamp: new Date('2024-01-14T14:20:00Z'),
+        database: 'redis',
+        resolved: true
       }
     ],
     metrics: {
-      connections: 1547,
-      memoryUsage: 78.5,
+      connections: 15470,
+      memoryUsage: 68.5,
       diskUsage: 45.2,
       responseTime: 2.3,
-      throughput: 15000,
+      throughput: 150000,
       errorRate: 0.01
     },
     icon: 'Database',
-    color: 'hsl(var(--db-redis))'
+    color: 'hsl(var(--db-redis))',
+    weeklyCost: 15420
   },
   {
     type: 'postgres',
-    name: 'PostgreSQL',
-    activeCount: 8,
-    healthyCount: 7,
-    unhealthyCount: 0,
-    warningCount: 1,
+    name: 'RDS (PostgreSQL)',
+    activeCount: 2500,
+    healthyCount: 2498,
+    unhealthyCount: 2,
+    warningCount: 0,
     alerts: [
       {
         id: '2',
-        severity: 'low',
-        message: 'Slow query detected in analytics database',
+        severity: 'critical',
+        message: 'Database connection limit reached on rds-prod-02',
         timestamp: new Date('2024-01-15T09:15:00Z'),
         database: 'postgres',
         resolved: false
+      },
+      {
+        id: '2-critical',
+        severity: 'critical',
+        message: 'High CPU usage on rds-analytics-01',
+        timestamp: new Date('2024-01-15T11:30:00Z'),
+        database: 'postgres',
+        resolved: false
+      },
+      {
+        id: '2-resolved',
+        severity: 'medium',
+        message: 'Slow query optimization completed',
+        timestamp: new Date('2024-01-14T16:45:00Z'),
+        database: 'postgres',
+        resolved: true
       }
     ],
     metrics: {
-      connections: 892,
-      memoryUsage: 65.3,
+      connections: 89200,
+      memoryUsage: 75.3,
       diskUsage: 82.1,
       responseTime: 45.6,
-      throughput: 3500,
+      throughput: 35000,
       errorRate: 0.002
     },
     icon: 'Database',
-    color: 'hsl(var(--db-postgres))'
+    color: 'hsl(var(--db-postgres))',
+    weeklyCost: 89500
   },
   {
     type: 'clickhouse',
     name: 'ClickHouse',
-    activeCount: 6,
-    healthyCount: 6,
+    activeCount: 20,
+    healthyCount: 20,
     unhealthyCount: 0,
     warningCount: 0,
-    alerts: [],
+    alerts: [
+      {
+        id: '3-resolved',
+        severity: 'low',
+        message: 'Table optimization completed for events table',
+        timestamp: new Date('2024-01-14T22:00:00Z'),
+        database: 'clickhouse',
+        resolved: true
+      }
+    ],
     metrics: {
-      connections: 234,
+      connections: 2340,
       memoryUsage: 52.7,
       diskUsage: 67.8,
       responseTime: 123.4,
-      throughput: 25000,
+      throughput: 250000,
       errorRate: 0.001
     },
     icon: 'BarChart3',
-    color: 'hsl(var(--db-clickhouse))'
+    color: 'hsl(var(--db-clickhouse))',
+    weeklyCost: 8900
   },
   {
     type: 'kafka',
     name: 'Apache Kafka',
-    activeCount: 9,
-    healthyCount: 8,
-    unhealthyCount: 1,
-    warningCount: 0,
-    alerts: [
-      {
-        id: '3',
-        severity: 'high',
-        message: 'Consumer lag increasing on topic user-events',
-        timestamp: new Date('2024-01-15T11:45:00Z'),
-        database: 'kafka',
-        resolved: false
-      }
-    ],
-    metrics: {
-      connections: 456,
-      memoryUsage: 71.2,
-      diskUsage: 34.5,
-      responseTime: 8.9,
-      throughput: 50000,
-      errorRate: 0.003
-    },
-    icon: 'Workflow',
-    color: 'hsl(var(--db-kafka))'
-  },
-  {
-    type: 'scylla',
-    name: 'ScyllaDB',
-    activeCount: 4,
-    healthyCount: 4,
+    activeCount: 5,
+    healthyCount: 5,
     unhealthyCount: 0,
     warningCount: 0,
-    alerts: [],
-    metrics: {
-      connections: 178,
-      memoryUsage: 58.9,
-      diskUsage: 76.3,
-      responseTime: 15.2,
-      throughput: 12000,
-      errorRate: 0.001
-    },
-    icon: 'Zap',
-    color: 'hsl(var(--db-scylla))'
-  },
-  {
-    type: 'mongodb',
-    name: 'MongoDB',
-    activeCount: 7,
-    healthyCount: 6,
-    unhealthyCount: 0,
-    warningCount: 1,
     alerts: [
       {
         id: '4',
         severity: 'medium',
-        message: 'Index optimization needed for products collection',
-        timestamp: new Date('2024-01-15T08:20:00Z'),
-        database: 'mongodb',
+        message: 'Consumer lag detected on user-events topic',
+        timestamp: new Date('2024-01-15T11:45:00Z'),
+        database: 'kafka',
         resolved: false
+      },
+      {
+        id: '4-resolved',
+        severity: 'high',
+        message: 'Broker restart completed successfully',
+        timestamp: new Date('2024-01-14T18:30:00Z'),
+        database: 'kafka',
+        resolved: true
       }
     ],
     metrics: {
-      connections: 623,
-      memoryUsage: 69.4,
-      diskUsage: 89.1,
-      responseTime: 32.1,
-      throughput: 8500,
-      errorRate: 0.004
+      connections: 4560,
+      memoryUsage: 71.2,
+      diskUsage: 34.5,
+      responseTime: 8.9,
+      throughput: 500000,
+      errorRate: 0.003
+    },
+    icon: 'Workflow',
+    color: 'hsl(var(--db-kafka))',
+    weeklyCost: 3200
+  },
+  {
+    type: 'scylla',
+    name: 'ScyllaDB',
+    activeCount: 15,
+    healthyCount: 15,
+    unhealthyCount: 0,
+    warningCount: 0,
+    alerts: [
+      {
+        id: '5-resolved',
+        severity: 'medium',
+        message: 'Compaction process completed successfully',
+        timestamp: new Date('2024-01-14T20:15:00Z'),
+        database: 'scylla',
+        resolved: true
+      }
+    ],
+    metrics: {
+      connections: 1780,
+      memoryUsage: 58.9,
+      diskUsage: 76.3,
+      responseTime: 15.2,
+      throughput: 120000,
+      errorRate: 0.001
+    },
+    icon: 'Zap',
+    color: 'hsl(var(--db-scylla))',
+    weeklyCost: 7800
+  },
+  {
+    type: 'mongodb',
+    name: 'MongoDB',
+    activeCount: 0,
+    healthyCount: 0,
+    unhealthyCount: 0,
+    warningCount: 0,
+    alerts: [],
+    metrics: {
+      connections: 0,
+      memoryUsage: 0,
+      diskUsage: 0,
+      responseTime: 0,
+      throughput: 0,
+      errorRate: 0
     },
     icon: 'Leaf',
-    color: 'hsl(var(--db-mongo))'
+    color: 'hsl(var(--db-mongo))',
+    weeklyCost: 0
   }
 ];
 

@@ -9,6 +9,7 @@ export interface DatabaseOverview {
   metrics: DatabaseMetrics;
   icon: string;
   color: string;
+  weeklyCost: number;
 }
 
 export interface DatabaseMetrics {

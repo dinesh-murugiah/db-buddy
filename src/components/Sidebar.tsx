@@ -28,9 +28,9 @@ import {
 
 const navigationItems = [
   { title: 'Dashboard', url: '/', icon: Home },
-  { title: 'Workflows', url: '/workflows', icon: Workflow },
+  { title: 'Manual Workflows', url: '/workflows', icon: Workflow },
+  { title: 'Agentic SRE', url: '/agentic-sre', icon: Activity },
   { title: 'Analytics', url: '/analytics', icon: BarChart3 },
-  { title: 'Logs', url: '/logs', icon: FileText },
   { title: 'Alerts', url: '/alerts', icon: Bell },
 ];
 

@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppSidebar } from "@/components/Sidebar";
 import Dashboard from "./pages/Dashboard";
+import AgenticSRE from "./pages/AgenticSRE";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,8 +24,8 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/workflows" element={<Dashboard />} />
+                <Route path="/agentic-sre" element={<AgenticSRE />} />
                 <Route path="/analytics" element={<Dashboard />} />
-                <Route path="/logs" element={<Dashboard />} />
                 <Route path="/alerts" element={<Dashboard />} />
                 <Route path="/databases/*" element={<Dashboard />} />
                 <Route path="/monitoring" element={<Dashboard />} />
