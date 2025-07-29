@@ -29,9 +29,9 @@ import {
 const navigationItems = [
   { title: 'Dashboard', url: '/', icon: Home },
   { title: 'Manual Workflows', url: '/workflows', icon: Workflow },
-  { title: 'Agentic SRE', url: '/agentic-sre', icon: Activity },
   { title: 'Analytics', url: '/analytics', icon: BarChart3 },
   { title: 'Alerts', url: '/alerts', icon: Bell },
+  { title: 'Knowledge Base', url: '/knowledge-base', icon: FileText },
 ];
 
 const databaseItems = [
@@ -44,9 +44,7 @@ const databaseItems = [
 ];
 
 const systemItems = [
-  { title: 'Monitoring', url: '/monitoring', icon: Activity },
-  { title: 'Users', url: '/users', icon: Users },
-  { title: 'Settings', url: '/settings', icon: Settings },
+  { title: 'SLA Dashboard', url: '/sla', icon: Activity },
 ];
 
 export function AppSidebar() {

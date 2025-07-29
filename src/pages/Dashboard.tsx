@@ -78,70 +78,28 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-500/10 via-purple-500/5 to-transparent border-purple-500/20">
+        <Card className="bg-gradient-to-br from-success/10 via-success/5 to-transparent border-success/20">
           <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-purple-600">
-              <Sparkles className="h-5 w-5" />
-              AI Automation
+            <CardTitle className="flex items-center gap-2 text-success">
+              <TrendingUp className="h-5 w-5" />
+              System Health
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">94%</div>
+            <div className="text-3xl font-bold">99.8%</div>
             <p className="text-sm text-muted-foreground">
-              Tasks automated this week
+              Overall system uptime
             </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Main Content Tabs */}
-      <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
-          <TabsTrigger value="overview">Database Landscape</TabsTrigger>
-          <TabsTrigger value="workflows">Manual Workflows</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {databases.map((database) => (
-              <DatabaseLandingCard key={database.type} database={database} />
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="workflows" className="space-y-4">
-          <div className="flex flex-col gap-4">
-            {/* Database Type Selector */}
-            <div className="flex flex-wrap gap-2">
-              {Object.keys(mockWorkflows).map((dbType) => (
-                <Button
-                  key={dbType}
-                  variant={selectedDatabase === dbType ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedDatabase(dbType as DatabaseType)}
-                  className="capitalize"
-                >
-                  {dbType}
-                  <Badge variant="secondary" className="ml-2">
-                    {mockWorkflows[dbType as DatabaseType].length}
-                  </Badge>
-                </Button>
-              ))}
-            </div>
-
-            {/* Workflows Grid */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {mockWorkflows[selectedDatabase]?.map((workflow) => (
-                <WorkflowCard 
-                  key={workflow.id} 
-                  workflow={workflow}
-                  onExecute={handleWorkflowExecute}
-                />
-              ))}
-            </div>
-          </div>
-        </TabsContent>
-      </Tabs>
+      {/* Database Overview */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {databases.map((database) => (
+          <DatabaseLandingCard key={database.type} database={database} />
+        ))}
+      </div>
     </div>
   );
 }
