@@ -73,8 +73,8 @@ export function AppSidebar() {
                 <Database className="h-5 w-5 text-primary-foreground" />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-foreground">DB Buddy</h2>
-                <p className="text-xs text-muted-foreground">Database Portal</p>
+                <h2 className="text-lg font-bold text-foreground">DBOPS Cockpit</h2>
+                <p className="text-xs text-muted-foreground">Operations Command Center</p>
               </div>
             </div>
           ) : (
