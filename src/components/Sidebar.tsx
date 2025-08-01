@@ -23,13 +23,15 @@ import {
   Activity,
   FileText,
   Users,
-  Bell
+  Bell,
+  Wrench
 } from 'lucide-react';
 
 const navigationItems = [
   { title: 'Dashboard', url: '/', icon: Home },
   { title: 'Manual Workflows', url: '/workflows', icon: Workflow },
   { title: 'Agentic SRE', url: '/agentic-sre', icon: Activity },
+  { title: 'DB-Maintenance', url: '/db-maintenance', icon: Wrench },
   { title: 'Analytics', url: '/analytics', icon: BarChart3 },
   { title: 'Alerts', url: '/alerts', icon: Bell },
   { title: 'Knowledge Base', url: '/knowledge-base', icon: FileText },

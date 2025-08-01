@@ -8,6 +8,7 @@ import { AppSidebar } from "@/components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import ManualWorkflows from "./pages/ManualWorkflows";
 import AgenticSRE from "./pages/AgenticSRE";
+import DBMaintenance from "./pages/DBMaintenance";
 import Analytics from "./pages/Analytics";
 import Alerts from "./pages/Alerts";
 import KnowledgeBase from "./pages/KnowledgeBase";
@@ -29,6 +30,7 @@ const App = () => (
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/workflows" element={<ManualWorkflows />} />
                 <Route path="/agentic-sre" element={<AgenticSRE />} />
+                <Route path="/db-maintenance" element={<DBMaintenance />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/alerts" element={<Alerts />} />
                 <Route path="/knowledge-base" element={<KnowledgeBase />} />
