@@ -2,16 +2,16 @@ import { useState, useMemo } from 'react';
 import { DashboardHeader } from '@/components/DashboardHeader';
 import { WorkflowProgressCard } from '@/components/WorkflowProgressCard';
 import { WorkflowLogDialog } from '@/components/WorkflowLogDialog';
-import { RDSMigrationForm } from '@/components/RDSMigrationForm';
-import { MigrationProgressTracker } from '@/components/MigrationProgressTracker';
+import { DynamicWorkflowForm } from '@/components/DynamicWorkflowForm';
+import { WorkflowProgressManager } from '@/components/WorkflowProgressManager';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
 import { mockMaintenanceWorkflows, MaintenanceWorkflow } from '@/data/maintenanceData';
 import { DatabaseType } from '@/types/database';
-import { CheckCircle, Clock, XCircle, Pause, AlertTriangle, Plus } from 'lucide-react';
+import { CheckCircle, Clock, XCircle, Pause, AlertTriangle } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 const DBMaintenance = () => {
   const [selectedDatabase, setSelectedDatabase] = useState<DatabaseType | 'all'>('all');
@@ -19,9 +19,18 @@ const DBMaintenance = () => {
   const [logDialogOpen, setLogDialogOpen] = useState(false);
   const [selectedWorkflow, setSelectedWorkflow] = useState<MaintenanceWorkflow | null>(null);
   const [selectedStepId, setSelectedStepId] = useState<string | undefined>();
-  const [showMigrationForm, setShowMigrationForm] = useState(false);
-  const [isMigrationRunning, setIsMigrationRunning] = useState(false);
-  const [migrationFormLoading, setMigrationFormLoading] = useState(false);
+  const [activeWorkflows, setActiveWorkflows] = useState<Array<{
+    id: string;
+    database: DatabaseType;
+    operationType: string;
+    startTime: Date;
+    currentStage: number;
+    stageProgress: number;
+    completedStages: Set<number>;
+    stages: any[];
+  }>>([]);
+  const [formLoading, setFormLoading] = useState(false);
+  const { toast } = useToast();
 
   const filteredWorkflows = useMemo(() => {
     return mockMaintenanceWorkflows.filter(workflow => {
@@ -61,20 +70,47 @@ const DBMaintenance = () => {
     // In a real app, this would pause the workflow
   };
 
-  const handleMigrationSubmit = (data: any) => {
-    setMigrationFormLoading(true);
-    console.log('Starting RDS migration with data:', data);
+  const handleWorkflowSubmit = (data: any) => {
+    setFormLoading(true);
+    console.log('Starting workflow with data:', data);
     
     // Simulate API call
     setTimeout(() => {
-      setMigrationFormLoading(false);
-      setShowMigrationForm(false);
-      setIsMigrationRunning(true);
-    }, 2000);
+      const newWorkflow = {
+        id: `workflow-${Date.now()}`,
+        database: data.database,
+        operationType: data.operationType,
+        startTime: new Date(),
+        currentStage: 0,
+        stageProgress: 0,
+        completedStages: new Set<number>(),
+        stages: []
+      };
+      
+      setActiveWorkflows(prev => [...prev, newWorkflow]);
+      setFormLoading(false);
+      
+      toast({
+        title: "Workflow Started",
+        description: `${data.operationType} workflow for ${data.database} has been started.`,
+      });
+    }, 1000);
   };
 
-  const handleMigrationComplete = () => {
-    setIsMigrationRunning(false);
+  const handleWorkflowComplete = (workflowId: string) => {
+    setActiveWorkflows(prev => prev.filter(w => w.id !== workflowId));
+    toast({
+      title: "Workflow Completed",
+      description: "The workflow has completed successfully.",
+    });
+  };
+
+  const handleWorkflowCancel = (workflowId: string) => {
+    setActiveWorkflows(prev => prev.filter(w => w.id !== workflowId));
+    toast({
+      title: "Workflow Cancelled",
+      description: "The workflow has been cancelled.",
+    });
   };
 
   const databases: Array<{ value: DatabaseType | 'all'; label: string; icon: string }> = [
@@ -155,40 +191,24 @@ const DBMaintenance = () => {
         </Card>
       </div>
 
-      {/* New Migration Section */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Quick Actions</CardTitle>
-                <Button 
-                  onClick={() => setShowMigrationForm(!showMigrationForm)}
-                  variant={showMigrationForm ? "secondary" : "default"}
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  {showMigrationForm ? "Cancel" : "New RDS Migration"}
-                </Button>
-              </div>
-            </CardHeader>
-            {showMigrationForm && (
-              <CardContent>
-                <RDSMigrationForm 
-                  onSubmit={handleMigrationSubmit}
-                  isLoading={migrationFormLoading}
-                />
-              </CardContent>
-            )}
-          </Card>
-        </div>
-        
-        <div>
-          <MigrationProgressTracker 
-            isActive={isMigrationRunning}
-            onComplete={handleMigrationComplete}
+      {/* Dynamic Workflow Form */}
+      {selectedDatabase !== 'all' && selectedType !== 'all' && (
+        <div className="grid gap-6 lg:grid-cols-2">
+          <DynamicWorkflowForm
+            database={selectedDatabase}
+            operationType={selectedType}
+            onSubmit={handleWorkflowSubmit}
+            isLoading={formLoading}
           />
+          <div className="space-y-4">
+            <WorkflowProgressManager
+              activeWorkflows={activeWorkflows}
+              onComplete={handleWorkflowComplete}
+              onCancel={handleWorkflowCancel}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
