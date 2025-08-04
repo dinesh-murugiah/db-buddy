@@ -62,7 +62,7 @@ export function WorkflowLogDialog({ open, onOpenChange, workflow, stepId }: Work
           <DialogTitle className="flex items-center gap-2">
             <span className="text-2xl">
               {workflow.database === 'redis' && '🔴'}
-              {workflow.database === 'postgres' && '🐘'}
+              {workflow.database === 'mysql' && '🐬'}
               {workflow.database === 'clickhouse' && '⚡'}
               {workflow.database === 'kafka' && '🔄'}
               {workflow.database === 'scylla' && '⚛️'}

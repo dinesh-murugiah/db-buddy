@@ -138,15 +138,15 @@ export const mockMaintenanceWorkflows: MaintenanceWorkflow[] = [
       }
     ]
   },
-  // PostgreSQL Workflows
+  // MySQL RDS Workflows
   {
-    id: 'postgres-migration-001',
-    name: 'PostgreSQL 14 to 15 Migration',
+    id: 'mysql-migration-001',
+    name: 'MySQL RDS 8.0 to 8.4 Migration',
     type: 'migration',
-    database: 'postgres',
+    database: 'mysql',
     status: 'failed',
     progress: 30,
-    description: 'Migrate PostgreSQL from version 14 to 15',
+    description: 'Migrate MySQL RDS from version 8.0 to 8.4',
     estimatedDuration: '3h 0m',
     startedAt: new Date(Date.now() - 180 * 60000),
     errorMessage: 'Extension compatibility check failed',

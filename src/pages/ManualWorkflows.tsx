@@ -93,12 +93,12 @@ const mockEnhancedWorkflows: Record<DatabaseType, EnhancedWorkflow[]> = {
       ]
     }
   ],
-  postgres: [
+  mysql: [
     {
-      id: 'postgres-1',
+      id: 'mysql-1',
       name: 'Scale Database Instance',
-      database: 'postgres',
-      description: 'Vertically scale PostgreSQL instance for increased performance',
+      database: 'mysql',
+      description: 'Vertically scale MySQL RDS instance for increased performance',
       category: 'Scaling',
       estimatedDuration: '8-12 minutes',
       status: 'idle',
@@ -115,9 +115,9 @@ const mockEnhancedWorkflows: Record<DatabaseType, EnhancedWorkflow[]> = {
       ]
     },
     {
-      id: 'postgres-2',
+      id: 'mysql-2',
       name: 'Increase Connection Pool',
-      database: 'postgres',
+      database: 'mysql',
       description: 'Dynamically increase connection pool size based on demand',
       category: 'Performance',
       estimatedDuration: '2-4 minutes',
@@ -134,9 +134,9 @@ const mockEnhancedWorkflows: Record<DatabaseType, EnhancedWorkflow[]> = {
       ]
     },
     {
-      id: 'postgres-3',
+      id: 'mysql-3',
       name: 'Optimize Slow Queries',
-      database: 'postgres',
+      database: 'mysql',
       description: 'Identify and optimize slow-running database queries',
       category: 'Optimization',
       estimatedDuration: '15-20 minutes',
@@ -473,10 +473,10 @@ export default function ManualWorkflows() {
               Redis
             </TabsTrigger>
             <TabsTrigger 
-              value="postgres" 
+              value="mysql" 
               className="text-xs font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/10 data-[state=active]:to-blue-600/10 data-[state=active]:text-blue-700 data-[state=active]:border-blue-200 data-[state=active]:shadow-sm hover:bg-blue-50/50 hover:text-blue-600 hover:scale-105 animate-fade-in"
             >
-              PostgreSQL
+              MySQL RDS
             </TabsTrigger>
             <TabsTrigger 
               value="clickhouse" 

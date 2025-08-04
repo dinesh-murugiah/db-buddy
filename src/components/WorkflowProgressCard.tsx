@@ -36,7 +36,7 @@ export function WorkflowProgressCard({ workflow, onStart, onPause, onViewLogs }:
   const getDatabaseIcon = (database: string) => {
     const icons: Record<string, string> = {
       redis: '🔴',
-      postgres: '🐘',
+      mysql: '🐬',
       clickhouse: '⚡',
       kafka: '🔄',
       scylla: '⚛️',

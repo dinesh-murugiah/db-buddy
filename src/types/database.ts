@@ -71,6 +71,6 @@ export interface ExecutionLog {
   metadata?: Record<string, any>;
 }
 
-export type DatabaseType = 'redis' | 'postgres' | 'clickhouse' | 'kafka' | 'scylla' | 'mongodb';
+export type DatabaseType = 'redis' | 'mysql' | 'clickhouse' | 'kafka' | 'scylla' | 'mongodb';
 
 export type HealthStatus = 'healthy' | 'warning' | 'error' | 'unknown';

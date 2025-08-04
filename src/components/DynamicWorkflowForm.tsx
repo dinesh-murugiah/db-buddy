@@ -44,6 +44,260 @@ export const DynamicWorkflowForm = ({ database, operationType, onSubmit, isLoadi
 
   const renderFormFields = () => {
     if (operationType === 'migration') {
+      if (database === 'mysql') {
+        return (
+          <div className="space-y-4">
+            {/* Database Identifiers */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="S_DBIdentifier">Source DB Identifier</Label>
+                <Input
+                  id="S_DBIdentifier"
+                  placeholder="loadtesting-delight-green-84-test-dnd"
+                  value={formData.S_DBIdentifier || ''}
+                  onChange={(e) => updateFormData('S_DBIdentifier', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="T_DBIdentifier">Target DB Identifier</Label>
+                <Input
+                  id="T_DBIdentifier"
+                  placeholder="loadtesting-delight-green-84-test-dnd-new"
+                  value={formData.T_DBIdentifier || ''}
+                  onChange={(e) => updateFormData('T_DBIdentifier', e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="SR_DBIdentifier">Source Replica DB Identifier</Label>
+                <Input
+                  id="SR_DBIdentifier"
+                  placeholder="Optional"
+                  value={formData.SR_DBIdentifier || ''}
+                  onChange={(e) => updateFormData('SR_DBIdentifier', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="DBSubnetGroupName">DB Subnet Group Name</Label>
+                <Input
+                  id="DBSubnetGroupName"
+                  placeholder="freshdesk-staging-main"
+                  value={formData.DBSubnetGroupName || ''}
+                  onChange={(e) => updateFormData('DBSubnetGroupName', e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Configuration Settings */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="AvailabilityZone">Availability Zone</Label>
+                <Select value={formData.AvailabilityZone || ''} onValueChange={(value) => updateFormData('AvailabilityZone', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select AZ" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="us-east-1a">us-east-1a</SelectItem>
+                    <SelectItem value="us-east-1b">us-east-1b</SelectItem>
+                    <SelectItem value="us-east-1c">us-east-1c</SelectItem>
+                    <SelectItem value="us-east-1d">us-east-1d</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="DBInstanceClass">DB Instance Class</Label>
+                <Select value={formData.DBInstanceClass || ''} onValueChange={(value) => updateFormData('DBInstanceClass', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select instance class" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="db.r6g.large">db.r6g.large</SelectItem>
+                    <SelectItem value="db.r6g.xlarge">db.r6g.xlarge</SelectItem>
+                    <SelectItem value="db.r6g.2xlarge">db.r6g.2xlarge</SelectItem>
+                    <SelectItem value="db.r6g.4xlarge">db.r6g.4xlarge</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Database Credentials */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="dbuser">Database User</Label>
+                <Input
+                  id="dbuser"
+                  placeholder="root"
+                  value={formData.dbuser || ''}
+                  onChange={(e) => updateFormData('dbuser', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="dbpassword">Database Password</Label>
+                <Input
+                  id="dbpassword"
+                  type="password"
+                  placeholder="Enter password"
+                  value={formData.dbpassword || ''}
+                  onChange={(e) => updateFormData('dbpassword', e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="replica_user">Replica User</Label>
+                <Input
+                  id="replica_user"
+                  placeholder="repl_user"
+                  value={formData.replica_user || ''}
+                  onChange={(e) => updateFormData('replica_user', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="replica_password">Replica Password</Label>
+                <Input
+                  id="replica_password"
+                  type="password"
+                  placeholder="Enter replica password"
+                  value={formData.replica_password || ''}
+                  onChange={(e) => updateFormData('replica_password', e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Engine and Version Settings */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="T_EngineVersion">Target Engine Version</Label>
+                <Select value={formData.T_EngineVersion || ''} onValueChange={(value) => updateFormData('T_EngineVersion', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select version" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="8.4.5">MySQL 8.4.5</SelectItem>
+                    <SelectItem value="8.0.39">MySQL 8.0.39</SelectItem>
+                    <SelectItem value="5.7.44">MySQL 5.7.44</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="port">Port</Label>
+                <Input
+                  id="port"
+                  type="number"
+                  placeholder="3306"
+                  value={formData.port || ''}
+                  onChange={(e) => updateFormData('port', e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Boolean Flags */}
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="isTargetMaster">Is Target Master</Label>
+                <Select value={formData.isTargetMaster || ''} onValueChange={(value) => updateFormData('isTargetMaster', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="True">True</SelectItem>
+                    <SelectItem value="False">False</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="isTargetMultiAZOnly">Multi-AZ Only</Label>
+                <Select value={formData.isTargetMultiAZOnly || ''} onValueChange={(value) => updateFormData('isTargetMultiAZOnly', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="True">True</SelectItem>
+                    <SelectItem value="False">False</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="Perf_Insights">Performance Insights</Label>
+                <Select value={formData.Perf_Insights || ''} onValueChange={(value) => updateFormData('Perf_Insights', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="True">True</SelectItem>
+                    <SelectItem value="False">False</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Advanced Settings */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="S_option_grp">Source Option Group</Label>
+                <Input
+                  id="S_option_grp"
+                  placeholder="default:mysql-8-4"
+                  value={formData.S_option_grp || ''}
+                  onChange={(e) => updateFormData('S_option_grp', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="S_emailId">Email ID</Label>
+                <Input
+                  id="S_emailId"
+                  type="email"
+                  placeholder="user@company.com"
+                  value={formData.S_emailId || ''}
+                  onChange={(e) => updateFormData('S_emailId', e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Upgrade Flags */}
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="Major_Upgrade">Major Upgrade</Label>
+                <Select value={formData.Major_Upgrade || ''} onValueChange={(value) => updateFormData('Major_Upgrade', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="True">True</SelectItem>
+                    <SelectItem value="False">False</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="UpgradeStorageConfig">Upgrade Storage Config</Label>
+                <Select value={formData.UpgradeStorageConfig || ''} onValueChange={(value) => updateFormData('UpgradeStorageConfig', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="True">True</SelectItem>
+                    <SelectItem value="False">False</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="Major_param_file">Major Param File</Label>
+                <Input
+                  id="Major_param_file"
+                  placeholder="version84"
+                  value={formData.Major_param_file || ''}
+                  onChange={(e) => updateFormData('Major_param_file', e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // Generic migration form for other databases
       return (
         <>
           <div className="grid grid-cols-2 gap-4">
@@ -262,7 +516,7 @@ export const DynamicWorkflowForm = ({ database, operationType, onSubmit, isLoadi
   const getDatabaseIcon = (db: DatabaseType) => {
     const icons = {
       redis: '🔴',
-      postgres: '🐘',
+      mysql: '🐬',
       clickhouse: '⚡',
       kafka: '🔄',
       scylla: '⚛️',

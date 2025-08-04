@@ -117,7 +117,7 @@ const DBMaintenance = () => {
   const databases: Array<{ value: DatabaseType | 'all'; label: string; icon: string }> = [
     { value: 'all', label: 'All Databases', icon: '💾' },
     { value: 'redis', label: 'Redis', icon: '🔴' },
-    { value: 'postgres', label: 'PostgreSQL', icon: '🐘' },
+    { value: 'mysql', label: 'MySQL RDS', icon: '🐬' },
     { value: 'clickhouse', label: 'ClickHouse', icon: '⚡' },
     { value: 'kafka', label: 'Kafka', icon: '🔄' },
     { value: 'scylla', label: 'ScyllaDB', icon: '⚛️' },

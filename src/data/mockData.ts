@@ -39,8 +39,8 @@ export const mockDatabaseOverviews: DatabaseOverview[] = [
     weeklyCost: 15420
   },
   {
-    type: 'postgres',
-    name: 'RDS (PostgreSQL)',
+    type: 'mysql',
+    name: 'RDS (MySQL)',
     activeCount: 2500,
     healthyCount: 2498,
     unhealthyCount: 2,
@@ -51,7 +51,7 @@ export const mockDatabaseOverviews: DatabaseOverview[] = [
         severity: 'critical',
         message: 'Database connection limit reached on rds-prod-02',
         timestamp: new Date('2024-01-15T09:15:00Z'),
-        database: 'postgres',
+        database: 'mysql',
         resolved: false
       },
       {
@@ -59,7 +59,7 @@ export const mockDatabaseOverviews: DatabaseOverview[] = [
         severity: 'critical',
         message: 'High CPU usage on rds-analytics-01',
         timestamp: new Date('2024-01-15T11:30:00Z'),
-        database: 'postgres',
+        database: 'mysql',
         resolved: false
       },
       {
@@ -67,7 +67,7 @@ export const mockDatabaseOverviews: DatabaseOverview[] = [
         severity: 'medium',
         message: 'Slow query optimization completed',
         timestamp: new Date('2024-01-14T16:45:00Z'),
-        database: 'postgres',
+        database: 'mysql',
         resolved: true
       }
     ],
@@ -80,7 +80,7 @@ export const mockDatabaseOverviews: DatabaseOverview[] = [
       errorRate: 0.002
     },
     icon: 'Database',
-    color: 'hsl(var(--db-postgres))',
+    color: 'hsl(var(--db-mysql))',
     weeklyCost: 89500
   },
   {
@@ -255,11 +255,11 @@ export const mockWorkflows: Record<DatabaseType, Workflow[]> = {
       successRate: 99.2
     }
   ],
-  postgres: [
+  mysql: [
     {
-      id: 'postgres-1',
+      id: 'mysql-1',
       name: 'Index Maintenance',
-      database: 'postgres',
+      database: 'mysql',
       description: 'Rebuild and optimize database indexes',
       category: 'Performance',
       estimatedDuration: '15-30 minutes',

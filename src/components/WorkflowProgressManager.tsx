@@ -148,7 +148,7 @@ export const WorkflowProgressManager = ({ activeWorkflows, onComplete, onCancel 
   const getDatabaseIcon = (database: DatabaseType) => {
     const icons = {
       redis: '🔴',
-      postgres: '🐘',
+      mysql: '🐬',
       clickhouse: '⚡',
       kafka: '🔄',
       scylla: '⚛️',
