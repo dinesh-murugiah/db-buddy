@@ -2,13 +2,16 @@ import { useState, useMemo } from 'react';
 import { DashboardHeader } from '@/components/DashboardHeader';
 import { WorkflowProgressCard } from '@/components/WorkflowProgressCard';
 import { WorkflowLogDialog } from '@/components/WorkflowLogDialog';
+import { RDSMigrationForm } from '@/components/RDSMigrationForm';
+import { MigrationProgressTracker } from '@/components/MigrationProgressTracker';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
 import { mockMaintenanceWorkflows, MaintenanceWorkflow } from '@/data/maintenanceData';
 import { DatabaseType } from '@/types/database';
-import { CheckCircle, Clock, XCircle, Pause, AlertTriangle } from 'lucide-react';
+import { CheckCircle, Clock, XCircle, Pause, AlertTriangle, Plus } from 'lucide-react';
 
 const DBMaintenance = () => {
   const [selectedDatabase, setSelectedDatabase] = useState<DatabaseType | 'all'>('all');
@@ -16,6 +19,9 @@ const DBMaintenance = () => {
   const [logDialogOpen, setLogDialogOpen] = useState(false);
   const [selectedWorkflow, setSelectedWorkflow] = useState<MaintenanceWorkflow | null>(null);
   const [selectedStepId, setSelectedStepId] = useState<string | undefined>();
+  const [showMigrationForm, setShowMigrationForm] = useState(false);
+  const [isMigrationRunning, setIsMigrationRunning] = useState(false);
+  const [migrationFormLoading, setMigrationFormLoading] = useState(false);
 
   const filteredWorkflows = useMemo(() => {
     return mockMaintenanceWorkflows.filter(workflow => {
@@ -53,6 +59,22 @@ const DBMaintenance = () => {
   const handlePauseWorkflow = (workflowId: string) => {
     console.log('Pausing workflow:', workflowId);
     // In a real app, this would pause the workflow
+  };
+
+  const handleMigrationSubmit = (data: any) => {
+    setMigrationFormLoading(true);
+    console.log('Starting RDS migration with data:', data);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setMigrationFormLoading(false);
+      setShowMigrationForm(false);
+      setIsMigrationRunning(true);
+    }, 2000);
+  };
+
+  const handleMigrationComplete = () => {
+    setIsMigrationRunning(false);
   };
 
   const databases: Array<{ value: DatabaseType | 'all'; label: string; icon: string }> = [
@@ -131,6 +153,41 @@ const DBMaintenance = () => {
             <div className="text-2xl font-bold text-muted-foreground">{workflowStats.idle}</div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* New Migration Section */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>Quick Actions</CardTitle>
+                <Button 
+                  onClick={() => setShowMigrationForm(!showMigrationForm)}
+                  variant={showMigrationForm ? "secondary" : "default"}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  {showMigrationForm ? "Cancel" : "New RDS Migration"}
+                </Button>
+              </div>
+            </CardHeader>
+            {showMigrationForm && (
+              <CardContent>
+                <RDSMigrationForm 
+                  onSubmit={handleMigrationSubmit}
+                  isLoading={migrationFormLoading}
+                />
+              </CardContent>
+            )}
+          </Card>
+        </div>
+        
+        <div>
+          <MigrationProgressTracker 
+            isActive={isMigrationRunning}
+            onComplete={handleMigrationComplete}
+          />
+        </div>
       </div>
 
       {/* Filters */}
